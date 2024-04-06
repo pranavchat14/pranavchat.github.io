@@ -1,6 +1,6 @@
 {
-    "name": "Pranav Chaturvedi",
-    "short_name": "Pranav Chaturvedi",
+    "name": "pranavchat.com",
+    "short_name": "pranavchat.com",
     "icons": [
         {
             "src": "/assets/images/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#cbc5c5",
+    "background_color": "#cbc5c5",
     "display": "standalone"
 }
