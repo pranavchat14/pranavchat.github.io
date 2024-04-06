@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Pranav Chaturvedi",
+    "short_name": "Pranav Chaturvedi",
     "icons": [
         {
             "src": "/assets/images/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#3d4e6e",
-    "background_color": "#3d4e6e",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "display": "standalone"
 }

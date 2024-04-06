@@ -33,7 +33,7 @@ plugins:
   - jekyll-feed
 
 
-favicon: /assets/images/favicon.ico
+# favicon: /assets/images/favicon.ico
 
 # Exclude from processing.
 # The following items will not be processed, by default.
