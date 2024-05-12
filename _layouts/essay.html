@@ -1,0 +1,89 @@
+---
+layout: default
+---
+<article class="essay" itemscope itemtype="http://schema.org/Blogessaying">
+
+  <header class="essay-header">
+    <h1 class="essay-title" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="essay-meta">
+
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
+        {{ page.date | date: date_format }}
+      </time>
+
+      <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+        by <span itemprop="name">{{ site.author }}</span>
+      </span>
+
+      <span>
+        {% for tag in page.tags %}
+          {% capture tag_name %}{{ tag }}{% endcapture %}
+          <a class="essay-tag" href="/tag/{{ tag_name }}"><nobr>{{ tag_name }}</nobr>&nbsp;</a>
+        {% endfor %}
+      </span>
+
+    </p>
+  </header>
+
+  <div class="essay-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+<div class="gallery">
+</div>
+
+  <div class="page-navigation">
+    {% if page.previous.url %}
+      <a class="prev" href="{{page.previous.url | relative_url}}">&larr; {{page.previous.title}}</a>
+    {% endif %}
+
+    {% if page.next.url %}
+      <a class="next" href="{{page.next.url | relative_url}}">{{page.next.title}} &rarr;</a>
+    {% endif %}
+  </div>
+
+
+</article>
+<!-- ---
+layout: default
+---
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+<article class="essay h-entry" itemscope itemtype="http://schema.org/Blogessaying">
+
+  <header class="essay-header">
+    <h1 class="essay-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="essay-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {{ page.date | date: date_format }}
+      </time>
+
+      <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+        by <span itemprop="name">{{ site.author }}</span>
+      </span>
+      
+      {%- if page.tags -%}
+        <span itemprop="keywords">
+          <span>[
+            {% for tag in page.tags %}
+              {% capture tag_name %}{{ tag }}{% endcapture %}      
+              <a href="/tag/{{ tag_name }}"><code><nobr>{{ tag_name }}</nobr></code>&nbsp;</a>
+            {% endfor %}
+          ]</span>
+        </span>
+      {%- endif -%}
+    </p>
+  </header>
+
+  <div class="essay-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+  {%- endif -%}
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
+ -->
