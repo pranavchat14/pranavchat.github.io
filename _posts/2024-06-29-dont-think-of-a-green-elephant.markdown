@@ -2,7 +2,7 @@
 layout: post
 title:  "Don't Think of a Green Elephant"
 date:   2024-06-29
-categories: 
+categories: vlms
 tags: Vision VLMs Cognition
 ---
 
@@ -159,7 +159,7 @@ width: 100%;">
 
 If you found this article useful, please cite it as:
 
-> Chaturvedi, Pranav. (June 2024). Don't Think of a Green Elephant. pranavchat.github.io. https://pranavchat.github.io/2024/06/29/dont-think-of-a-green-elephant.html
+> Chaturvedi, Pranav. (June 2024). Don't Think of a Green Elephant. pranavchat.github.io. https://pranavchat.github.io/vlms/2024/06/29/dont-think-of-a-green-elephant/
 
 or
 
@@ -171,7 +171,7 @@ or
   journal = {pranavchat.github.io},
   year    = {2024},
   month   = {June},
-  url     = {https://pranavchat.github.io/2024/06/29/dont-think-of-a-green-elephant.html}
+  url     = {https://pranavchat.github.io/vlms/2024/06/29/dont-think-of-a-green-elephant/}
 }
 ```
 <br>

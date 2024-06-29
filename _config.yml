@@ -10,6 +10,7 @@ github_username:  pranavchat14
 
 theme: minima
 
+permalink: /:categories/:year/:month/:day/:title/
 
 markdown: kramdown
 highlighter: rouge
