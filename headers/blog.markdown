@@ -4,8 +4,6 @@ title: Blog
 permalink: /blog/
 ---
 
-Welcome to my blog page! Here you will find a list of all my blog posts:
-
 <ul>
 {% for post in site.posts %}
   <li>
