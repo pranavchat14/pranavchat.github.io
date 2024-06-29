@@ -5,6 +5,7 @@ date: 2024-05-12
 categories: llms
 tags: LLMs Sampling
 image: /assets/blog_images/2024-05-12-sampling-in-llms.jpg
+permalink: llms/2024/05/12/sampling-in-llms.html
 ---
 
 > LLMs are known to show creativity and produce diverse outputs. But how do they do it?
