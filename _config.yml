@@ -36,3 +36,6 @@ google_analytics: G-RVWRJ2KKZZ
 disqus:
   shortname: pranavchat
 
+site:
+  default_image: /assets/images/default.jpg 
+
