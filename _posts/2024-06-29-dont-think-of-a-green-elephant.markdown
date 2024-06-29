@@ -45,10 +45,11 @@ If we think about it, it's very similar to how humans behave. When asked not to 
 
 If I have to break the process down into individual steps, of how I personally do it, it would be like this:
 
-- First, the individual words are visualized.
-- Then, the visualized words are combined to form an image. Specifically, nouns are visualized first, then adjectives, and so on.
+- First, the brain scans for the major words in the sentence.
+- Then, mind tries to fetch from many-to-one mapping visuals that these words might represent. Specifically, nouns are visualized first, then adjectives, and so on.
+- And then, those visuals are combined with different degrees of variations or say weights, to form a coherent image. 
 
-So when someone says "don't think of a green elephant," it tries to pick up on nouns and adjectives, fetches the visuals that are mapped to the words from past experiences, and then combines them to create a coherent scenery.
+So when someone says "don't think of a green elephant," my mind tries to pick up on nouns and adjectives, fetches the visuals that are mapped to the words from past experiences, and then combines them to create a coherent scenery.
 
 ### Scenario 1: Sentence with Straight-Forward Cues
 
@@ -83,9 +84,7 @@ And maybe that gives a clue why VLMs struggle with negative instructions.
 
 #### What Goes on in a Human's Mind When They See a Negative Cue?
 
-In the case of humans, how it happens is that for each word, there exists in mind a many-to-one mapping with visuals of objects it might represent. And those visuals are combined with different degrees of variations or say weights, to form a coherent image.
-
-And in the case of a negative cue, it is usually the case that a negative cue is interpreted and appended to the scene after the scene has already been visualized. For example, if I am asked not to think of a red apple, I would visualize a red apple first and then append the negative cue to erase the apple from the scene.
+What happens in the case of a negative cue is that it is interpreted and appended to the scene after the scene has already been visualized. For example, if I am asked not to think of a red apple, I would visualize a red apple first and then append the negative cue to erase the apple from the scene.
 
 The combination of word negations and their visual counterparts do not exist even for us, and there is always a bit of post-processing that happens to erase the visuals of the object from the scene.
 
