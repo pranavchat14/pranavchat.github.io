@@ -6,6 +6,8 @@
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
   <meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}{% else %}{{ site.keywords }}{% endif %}">
   <meta name="author" content="{{ site.author }}">
+  <meta name="publish_date" property="og:publish_date" content="{% if page.date %}{{ page.date | date_to_xmlschema }}{% else %}{{ site.time | date_to_xmlschema }}{% endif %}">
+
 
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
@@ -14,6 +16,7 @@
   <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}">
   <meta property="og:site_name" content="{{ site.title }}">
   <meta property="og:type" content="website">
+  
 
   <!-- Twitter-specific meta tags -->
   <meta name="twitter:card" content="summary_large_image">
