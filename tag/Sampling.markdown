@@ -1,5 +1,5 @@
 ---
 layout: tagspage
 title: 
-tag: LLMs
+tag: Sampling
 ---

@@ -3,7 +3,7 @@ layout: post
 title: How LLMs Introduce Creativity
 date: 2024-05-12 
 categories: llms
-tags: llms sampling_method
+tags: LLMs Sampling
 ---
 
 > LLMs are known to show creativity and produce diverse outputs. But how do they do it?
