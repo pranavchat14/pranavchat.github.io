@@ -142,7 +142,7 @@ width: 100%;">
     <img src="/assets/blog_images/2024-06-29-dont-think-of-a-green-elephant-negative-prompt.png" 
     alt="Don't think of a green elephant" style="width: 100%; max-width: 
     400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    <p><em>Prompt: "Think of a green elephant"</em></p>
+    <p><em>Prompt: "Think of an elephant"</em></p>
     <p><em>Negative Prompt: "green"</em></p>
   </div>
   <div style="margin: 20px 0; text-align: center;">
