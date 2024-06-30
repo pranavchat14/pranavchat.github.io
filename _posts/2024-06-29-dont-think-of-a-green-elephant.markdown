@@ -48,7 +48,7 @@ If we think about it, it's very similar to how humans behave. When asked not to 
 If I have to break the process down into individual steps, of how I personally do it, it would be like this:
 
 - First, the brain scans for the major words in the sentence.
-- Then, mind tries to fetch from many-to-one mapping visuals that these words might represent. Specifically, nouns are visualized first, then adjectives, and so on.
+- Then, mind tries to fetch from many-to-one mapping, visuals, that these words might represent. Specifically, nouns are visualized first, then adjectives, and so on.
 - And then, those visuals are combined with different degrees of variations or say weights, to form a coherent image. 
 
 So when someone says "don't think of a green elephant," my mind tries to pick up on nouns and adjectives, fetches the visuals that are mapped to the words from past experiences, and then combines them to create a coherent scenery.
@@ -56,15 +56,15 @@ So when someone says "don't think of a green elephant," my mind tries to pick up
 
 ### Scenario 1: Sentence with Straight-Forward Cues
 
-Something like this: 
+Take this sentence: 
 A bright <span style="color:red">red balloon</span> floating gently in a clear <span style="color:skyblue">blue</span> sky.
 
 I wouldn't presume to know how every mind in the universe works, but if I have to describe it, it would be something like this:
 
-- The mind immediately thinks of a red balloon almost as if they are not two separate words but one.
-- Then the next word that is emphasized is sky.
+- The mind immediately thinks of "red balloon" almost as if they are not two separate words but one.
+- Then the next word mind goes to, is "sky."
 
-After the word balloon, mind sort of waits for the next cue, and it is not until the word sky that it changes the already created scenery and adds to it.
+After the word balloon, mind sort of waits for the next cue. And it is not until the word sky, that it changes the already created scenery and adds to it.
 <br>
 
 ### Scenario 2: Sentence with Not So Straight-Forward Cues
@@ -72,7 +72,7 @@ After the word balloon, mind sort of waits for the next cue, and it is not until
 In contrast, let's think of the sentence:
 > Imagine the sound of a silent echo.
 
-At most, what I can think of is an echo-chamber. Almost as if there is a gap in the mental map for words like sound, silent, and echo. A musician or an audio engineer might have a different opinion though.
+At most, what I can think of is an echo-chamber. Almost as if there is a gap in the mental map for words like sound, silent, and echo. A musician or an audio engineer might have a different opinion though. Discussion on this topic is a topic for another post.
 <br>
 
 ### Scenario 3: Sentence with Negative Cue
@@ -91,7 +91,7 @@ And maybe that gives a clue why LVMs struggle with negative instructions.
 
 What happens in the case of a negative cue is that it is interpreted and appended to the scene after the scene has already been visualized. For example, if I am asked not to think of a red apple, I would visualize a red apple first and then append the negative cue to erase the apple from the scene.
 
-The combination of word negations and their visual counterparts do not exist even for us, and there is always a bit of post-processing that happens to erase the visuals of the object from the scene.
+The combination of word negations and their visual counterparts do not exist even for us humans, and there is always a bit of post-processing that happens to erase the visuals of the object from the scene.
 <br>
 
 ## The Elephant's Digital Cousin: How LVMs See the World
@@ -106,7 +106,7 @@ For LMs to work with negations, they need to be trained with a lot of negation d
 
 - How would the negation data look like?
 - Do we go about labeling all the images not containing the balloons as not-balloons?
-- In the case of the instruction "Don't create a balloon," what should the model create? Should it create an empty space? Is it even a valid instruction?
+- In the case of the instruction "Don't create a balloon," what should the model create? Should it create an empty space? Is that even a valid instruction?
 - What is the good way to include negation data in the training?
 
 There is no good way.
@@ -159,7 +159,7 @@ width: 100%;">
   </div>
 </div>
 
-In above cases, the prompt in itself would have been enough to generate these images, but the negative prompts help the model move further away from the features that we don't want them to generate.
+In above cases, the prompt in itself would have been enough to generate these images, but the negative prompts help the model move further away from the features that we don't want the model to generate.
 
 <br>
 
