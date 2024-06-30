@@ -17,7 +17,7 @@ image: /assets/blog_images/2024-06-29-dont-think-of-a-green-elephant.png
 
 ## The Elephant in the Room
 
-Picture this: You ask an AI to draw "anything but a green elephant," because who wants a green elephant when they look perfectly gorgeous as they are? And what do you get? Lo and behold, a green elephant!
+Picture this: You ask an AI to draw "anything but a green elephant," because who wants a green elephant when they look perfectly gorgeous as they are. And what do you get? Lo and behold, a green elephant!
 
 Let's dive into the world of Language Vision Models (LVMs) and their struggle with negative instructions.
 
