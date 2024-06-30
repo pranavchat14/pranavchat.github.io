@@ -178,7 +178,7 @@ or
   journal = {pranavchat.github.io},
   year    = {2024},
   month   = {June},
-  url     = {https://pranavchat.github.io/LVMs/2024/06/29/dont-think-of-a-green-elephant/}
+  url     = {https://pranavchat.github.io/LVMs/2024/06/29/dont-think-of-a-green-elephant/
 }
 ```
 <br>
