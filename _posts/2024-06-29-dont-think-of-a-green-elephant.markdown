@@ -7,7 +7,7 @@ tags: Vision LVMs Cognition
 image: /assets/blog_images/2024-06-29-dont-think-of-a-green-elephant.png
 ---
 
-> Text-to-Image models like Stable Diffusion struggle with negation as part of the prompt. We explore here why of it, draw parallels with human thought process and techniques that have been developed to deal with it.
+> Text-to-Image models like Stable Diffusion struggle with negation as part of the prompt. We explore here why of it, draw parallels with human thought process and technique that has been developed to deal with it.
 
 <!--more-->
 
