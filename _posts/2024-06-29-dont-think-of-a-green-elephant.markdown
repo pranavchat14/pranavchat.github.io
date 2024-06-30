@@ -184,15 +184,15 @@ or
 <br>
 ## Attributions
 
-Stable Diffusion 3. Response to "Don't think of a green elephant". AI-generated image. STABILITY AI LTD, 2024. https://stability.ai/stable-diffusion.
+Stable Diffusion 3. Response to "Don't think of a green elephant". AI-generated image. STABILITY AI LTD, 2024. [Link](https://stability.ai/stable-diffusion)
 
-Stable Diffusion 3. Response to "A human without teeth". AI-generated image. STABILITY AI LTD, 2024. https://stability.ai/stable-diffusion.
+Stable Diffusion 3. Response to "A human without teeth". AI-generated image. STABILITY AI LTD, 2024. [Link](https://stability.ai/stable-diffusion)
 
-Stable Diffusion 3. Response to "A human without hair walking on a non-snowy road". AI-generated image. STABILITY AI LTD, 2024. https://stability.ai/stable-diffusion.
+Stable Diffusion 3. Response to "A human without hair walking on a non-snowy road". AI-generated image. STABILITY AI LTD, 2024. [Link](https://stability.ai/stable-diffusion)
 
 
-Stable Diffusion 3. Response to "Think of an elephant" with negative prompt "green". AI-generated image. STABILITY AI LTD, 2024. https://stability.ai/stable-diffusion.
+Stable Diffusion 3. Response to "Think of an elephant" with negative prompt "green". AI-generated image. STABILITY AI LTD, 2024. [Link](https://stability.ai/stable-diffusion)
 
-Stable Diffusion 3. Response to "A human" with negative prompt "teeth". AI-generated image. STABILITY AI LTD, 2024. https://stability.ai/stable-diffusion.
+Stable Diffusion 3. Response to "A human" with negative prompt "teeth". AI-generated image. STABILITY AI LTD, 2024. [Link](https://stability.ai/stable-diffusion)
 
-Stable Diffusion 3. Response to "A human walking on a road" with negative prompt "hair, snow". AI-generated image. STABILITY AI LTD, 2024. https://stability.ai/stable-diffusion.
+Stable Diffusion 3. Response to "A human walking on a road" with negative prompt "hair, snow". AI-generated image. STABILITY AI LTD, 2024. [Link](https://stability.ai/stable-diffusion)
