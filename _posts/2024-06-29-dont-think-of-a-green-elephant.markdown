@@ -105,7 +105,7 @@ The sequential nature of text processing in these models means that by the time 
 For LMs to work with negations, they need to be trained with a lot of negation data. But that's quite a bit of a challenge. There are so many questions to be answered for that.
 
 - How would the negation data look like?
-- Do we go about labeling all the images not containing the balloons as not-balloons?
+- Do we go about labeling all the images not containing balloons as not-balloons?
 - In the case of the instruction "Don't create a balloon," what should the model create? Should it create an empty space? Is that even a valid instruction?
 - What is the good way to include negation data in the training?
 
