@@ -159,6 +159,8 @@ width: 100%;">
   </div>
 </div>
 
+One could say that the prompt in itself would have been enough to generate these images, but the negative prompts help the model move further away from the features that we don't want them to generate.
+
 <br>
 *All images generated using Stable Diffusion 3.*
 
