@@ -72,7 +72,7 @@ After the word balloon, mind sort of waits for the next cue. And it is not until
 In contrast, let's think of the sentence:
 > Imagine the sound of a silent echo.
 
-At most, what I can think of is an echo-chamber. Almost as if there is a gap in the mental map for words like sound, silent, and echo. A musician or an audio engineer might have a different opinion though. Discussion on this topic is a topic for another post.
+At most, what I can think of is an echo-chamber. Almost as if there is a gap in the mental map for words like sound, silent, and echo. A musician or an audio engineer might have a different opinion though. Discussion on this topic is a matter for another post.
 <br>
 
 ### Scenario 3: Sentence with Negative Cue
