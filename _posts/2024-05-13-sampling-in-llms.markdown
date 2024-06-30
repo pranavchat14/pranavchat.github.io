@@ -152,15 +152,17 @@ Here is the implementation of some of the techniques discussed in the blog provi
 or
 
 
-```bash
+```bibtex
 @article{chaturvedi2024sampling,
   title   = {How LLMs Introduce Creativity},
   author  = {Chaturvedi, Pranav},
   journal = {pranavchat.github.io},
   year    = {2024},
   month   = {May},
-  url     = {https://pranavchat.github.io/llms/2024/05/12/sampling-in-llms.html}
+  url     = {https://pranavchat.github.io/llms/2024/05/12/sampling-in-llms.html/}
+}
 ```
+
 
 
 ## Attributions

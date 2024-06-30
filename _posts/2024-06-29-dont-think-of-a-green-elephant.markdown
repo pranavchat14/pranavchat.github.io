@@ -171,14 +171,14 @@ If you found this article useful, please cite it as:
 or
 
 
-```bash
+```bibtex
 @article{chaturvedi2024elephant,
   title   = {Don't Think of a Green Elephant},
   author  = {Chaturvedi, Pranav},
   journal = {pranavchat.github.io},
   year    = {2024},
   month   = {June},
-  url     = {https://pranavchat.github.io/LVMs/2024/06/29/dont-think-of-a-green-elephant/
+  url     = {https://pranavchat.github.io/LVMs/2024/06/29/dont-think-of-a-green-elephant/}
 }
 ```
 <br>
