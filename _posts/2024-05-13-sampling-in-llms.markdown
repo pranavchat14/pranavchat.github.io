@@ -153,7 +153,7 @@ or
 
 
 ```bash
-@article{chaturvedi2024elephant,
+@article{chaturvedi2024sampling,
   title   = {How LLMs Introduce Creativity},
   author  = {Chaturvedi, Pranav},
   journal = {pranavchat.github.io},
