@@ -83,7 +83,7 @@ What I feel is more difficult to visualize, even for us as humans who are at the
 
 By the time I hit the word "think", it's already *BZZZZT* in my mind. The brake was applied, but the train of thought fails to stop. It has already reached the green elephant station. A glorious green elephant stands in the middle of my mind.
 
-What should I do now? Should I go back and delete it? Of course, I can delete the elephant from the mental scene. But LVMs do not have the luxury to do that.
+What should I do now? Should I go back and delete it? Of course, I can delete the elephant from the mental scene. But LVMs do not have that luxury.
 
 And maybe that gives a clue why LVMs struggle with negative instructions.
 
