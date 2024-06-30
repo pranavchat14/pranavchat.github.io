@@ -147,7 +147,7 @@ Here is the implementation of some of the techniques discussed in the blog provi
 [Generate from nanoGPT](https://github.com/karpathy/nanoGPT/blob/325be85d9be8c81b436728a420e85796c57dba7e/model.py#L306)
 
 
-> Chaturvedi, Pranav. (June 2024). Don't Think of a Green Elephant. pranavchat.github.io. https://pranavchat.github.io/vlms/2024/06/29/dont-think-of-a-green-elephant/
+> Chaturvedi, Pranav. (June 2024). How LLMs Introduce Creativity. pranavchat.github.io. https://pranavchat.github.io/llms/2024/05/12/sampling-in-llms.html
 
 or
 
@@ -159,8 +159,7 @@ or
   journal = {pranavchat.github.io},
   year    = {2024},
   month   = {May},
-  url     = {https://pranavchat.github.io/vlms/2024/05/13/sampling-in-llms/}
-}
+  url     = {https://pranavchat.github.io/llms/2024/05/12/sampling-in-llms.html}
 ```
 
 
