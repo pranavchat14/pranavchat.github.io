@@ -47,8 +47,8 @@ If we think about it, it's very similar to how humans behave. When asked not to 
 
 If I have to break the process down into individual steps, of how I personally do it, it would be like this:
 
-- First, the brain scans for the major words in the sentence.
-- Then, mind tries to fetch from many-to-one mapping, visuals, that these words might represent. Specifically, nouns are visualized first, then adjectives, and so on.
+- First, the mind scans for the major words in the sentence.
+- Then, mind tries to fetch from one-to-many mapping, visuals, that these words might represent. Specifically, nouns are visualized first, then adjectives, and so on.
 - And then, those visuals are combined with different degrees of variations or say weights, to form a coherent image. 
 
 So when someone says "don't think of a green elephant," my mind tries to pick up on nouns and adjectives, fetches the visuals that are mapped to the words from past experiences, and then combines them to create a coherent scenery.
@@ -98,7 +98,7 @@ The combination of word negations and their visual counterparts do not exist eve
 
 While training, LVMs are shown a vast amount of data. And through the course of training, they associate words with their visual counterparts on the basis of their co-occurrence. It creates sort of a loose mapping between words and features of objects they have seen.
 
-What LVMs lack is the mapping of negation of each of those words and the appropriate corresponding visual representations. This limitation comes from the fact that during training, LVMs are primarily exposed to positive associations between words and images. They learn to generate images based on what should be present, rather than what should be absent.
+What LVMs lack is the mapping of negation of each of those words and their corresponding visual representations. This limitation comes from the fact that during training, LVMs are primarily exposed to positive associations between words and images. They learn to generate images based on what should be present, rather than what should be absent.
 
 The sequential nature of text processing in these models means that by the time a negative instruction is processed, the model may have already activated the visual features associated with the negated concept. Unlike us humans, who can consciously suppress and modify mental images, LVMs lack this flexible, top-down control over their generative process.
 
