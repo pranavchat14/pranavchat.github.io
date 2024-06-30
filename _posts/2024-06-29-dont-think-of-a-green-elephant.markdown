@@ -114,7 +114,7 @@ There is no good way.
 
 ## The Elephant's Eraser: Negative Prompts to the Rescue
 
-And so comes the idea of negative prompts. It is an auxiliary optional input prompt that goes with the primary prompt where we mention something that we don't want the model to generate.
+And so comes the idea of negative prompts. It is an auxiliary optional input prompt that goes with the primary prompt where we can mention something that we don't want the model to generate.
 
 It is a nice way of moving the model away from a feature space that belongs to the things we don't want them to generate.
 
