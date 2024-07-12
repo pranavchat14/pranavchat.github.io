@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="LLMs are known to show creativity and produce diverse outputs. But how do they do it?This post explores various methods to achieve diversity and creative unpredictability in LLM outputs.     Determin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How LLMs Introduce Creativity">
+<meta property="og:url" content="https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html">
+<meta property="og:site_name" content="Pranav Chaturvedi">
+<meta property="og:description" content="LLMs are known to show creativity and produce diverse outputs. But how do they do it?This post explores various methods to achieve diversity and creative unpredictability in LLM outputs.     Determin">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pranavchat.com/blog_images/cumulative_probs.svg">
+<meta property="article:published_time" content="2024-05-11T21:28:35.000Z">
+<meta property="article:modified_time" content="2024-07-12T15:26:31.149Z">
+<meta property="article:author" content="Pranav Chaturvedi">
+<meta property="article:tag" content="LLMs">
+<meta property="article:tag" content="Sampling">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pranavchat.com/blog_images/cumulative_probs.svg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>How LLMs Introduce Creativity</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVWRJ2KKZZ"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RVWRJ2KKZZ');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/lvms/2024/06/29/dont-think-of-a-green-elephant/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&text=How LLMs Introduce Creativity"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&is_video=false&description=How LLMs Introduce Creativity"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How LLMs Introduce Creativity&body=Check out this article: https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&name=How LLMs Introduce Creativity&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&t=How LLMs Introduce Creativity"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Determinism-in-LLM-Outputs"><span class="toc-number">1.</span> <span class="toc-text">Determinism in LLM Outputs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sampling"><span class="toc-number">2.</span> <span class="toc-text">Sampling</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sampling-from-a-Multinomial-Distribution"><span class="toc-number">2.1.</span> <span class="toc-text">Sampling from a Multinomial Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-of-Token-Selection-Using-Cumulative-Probabilities"><span class="toc-number">2.2.</span> <span class="toc-text">Example of Token Selection Using Cumulative Probabilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-this-approach-is-effective"><span class="toc-number">2.3.</span> <span class="toc-text">Why this approach is effective?</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ways-to-control-determinism"><span class="toc-number">3.</span> <span class="toc-text">Ways to control determinism</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Top-k-Sampling"><span class="toc-number">3.1.</span> <span class="toc-text">Top-k Sampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Top-p-Sampling"><span class="toc-number">3.2.</span> <span class="toc-text">Top-p Sampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logit-Scaling-Temperature"><span class="toc-number">3.3.</span> <span class="toc-text">Logit Scaling (Temperature):</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Attributions"><span class="toc-number">4.</span> <span class="toc-text">Attributions</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        How LLMs Introduce Creativity
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Pranav Chaturvedi</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-11T21:28:35.000Z" class="dt-published" itemprop="datePublished">2024-05-12</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/LLMs/" rel="tag">LLMs</a>, <a class="p-category" href="/tags/Sampling/" rel="tag">Sampling</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>LLMs are known to show creativity and produce diverse outputs. But how do they do it?<br>This post explores various methods to achieve diversity and creative unpredictability in LLM outputs.</p>
+</blockquote>
+<!-- toc -->
+
+<ul>
+<li><a href="#Determinism-in-LLM-Outputs">Determinism in LLM Outputs</a></li>
+<li><a href="#Sampling">Sampling</a><ul>
+<li><a href="#Sampling-from-a-Multinomial-Distribution">Sampling from a Multinomial Distribution</a></li>
+<li><a href="#Example-of-Token-Selection-Using-Cumulative-Probabilities">Example of Token Selection Using Cumulative Probabilities</a></li>
+<li><a href="#Why-this-approach-is-effective?">Why this approach is effective?</a></li>
+</ul>
+</li>
+<li><a href="#Ways-to-control-determinism">Ways to control determinism</a><ul>
+<li><a href="#Top-k-Sampling">Top-k Sampling</a></li>
+<li><a href="#Top-p-Sampling">Top-p Sampling</a></li>
+<li><a href="#Logit-Scaling-Temperature">Logit Scaling (Temperature):</a></li>
+</ul>
+</li>
+<li><a href="#Attributions">Attributions</a></li>
+</ul>
+<!-- tocstop -->
+
+<h1 id="Determinism-in-LLM-Outputs"><a href="#Determinism-in-LLM-Outputs" class="headerlink" title="Determinism in LLM Outputs"></a>Determinism in LLM Outputs</h1><p>Large Language Models (LLMs), by design, exhibit non-deterministic behavior. This means that they do not generate identical responses to the same input across different instances. As a result, each query, even if repeated under similar conditions, can yield varied outcomes. This variability is fundamental to the design of LLMs, enhancing their ability to produce diverse and creative outputs.</p>
+<p>Take for example these two responses:</p>
+<p><span style="color:blue"><strong>Input:</strong></span> Answer in 10 words. What is an apple?.</p>
+<p><span style="color:green"><strong>Response 1:</strong></span> A juicy, sweet, and crunchy fruit that grows on trees.</p>
+<p><span style="color:green"><strong>Response 2:</strong></span> A juicy, sweet, and crunchy fruit that’s often eaten fresh.<br><br></p>
+<p><u>At the core of the difference is the way the next token are sampled.</u><br><br></p>
+<p>To illustrate this point, let’s take an example of “A quick brown fox”. </p>
+<p>Given these words as input, model will generate next token in the sequence which according to common knowledge, is “jumps”. So, the model will assign highest probability to “jumps” token. </p>
+<p><span style="color:blue"><strong>Input:</strong></span> A quick brown fox </p>
+<p>The model will take these input words as token and output logits(logprobs) for each token in the vocabulary for the next token prediction. These logits are converted to normalized probabilities using Softmax function.<br><br></p>
+<p>Normalized Probabilities:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([[0.01, 0.05, 0.2, 0.02, ...]])</span><br></pre></td></tr></table></figure>
+
+
+<p>The next step involves selecting a probability that corresponds to the next token in the sequence. A straightforward approach might be to simply choose the highest probability. However, this method is not optimal as it leads to deterministic behavior in the model’s output.</p>
+<p>The deterministic method has several drawbacks:</p>
+<ul>
+<li>During the inference phase, the tokens generated by the model are fed back as input for next predictions. If these tokens are inaccurate, the errors are perpetuated through each cycle of feedback, leading to a degradation in the quality of the output.</li>
+<li>Additionally, deterministic selection tends to cause repetitive sequences of tokens. Such repetition can render the text output unnatural, robotic, and lacking in coherence.</li>
+</ul>
+<p>To enhance the quality and variability of the output, it is preferable to employ a <strong>sampling method</strong>. This method involves selecting the next token based on a probabilistic distribution of the predicted probabilities, rather than merely choosing the token with the highest probability.</p>
+<h1 id="Sampling"><a href="#Sampling" class="headerlink" title="Sampling"></a>Sampling</h1><p>Sampling refers to the technique of selecting a specific subset from a larger set of data, which in this context is referred to as the population. </p>
+<p>In the case of language models, this subset consists of a single token chosen from the output probabilities of the entire vocabulary. This selection process is crucial and acts as a control knob for diverse and contextually appropriate responses.</p>
+<h2 id="Sampling-from-a-Multinomial-Distribution"><a href="#Sampling-from-a-Multinomial-Distribution" class="headerlink" title="Sampling from a Multinomial Distribution"></a>Sampling from a Multinomial Distribution</h2><p>The selection of the next token in a sequence is performed using a probabilistic approach based on a multinomial distribution. Here’s how it works:</p>
+<ol>
+<li><p><strong>Probability Assignment:</strong> First, the model computes the logits for each potential next token and applies the softmax function to convert these logits into normalized probabilities.</p>
+</li>
+<li><p><strong>Random Sampling:</strong> A random number between 0 and 1 is generated. This number is used to select a token whose cumulative probability exceeds this random value.</p>
+</li>
+</ol>
+<p>For instance, consider the phrase “A quick brown fox”. After processing this input, the model predicts the probabilities for potential next tokens. Let’s explore how the token “jumps” might be selected based on these probabilities:</p>
+<ul>
+<li>The model calculates the logits for each possible next token and applies the softmax function to derive the probabilities.</li>
+<li>A random number is generated. The token corresponding to the first cumulative probability that is greater than this random number is chosen as the next token in the sequence.</li>
+</ul>
+<p>This method ensures that while the most probable token (“jumps” in our example) is often selected, there is still room for less likely tokens to be chosen occasionally, and as a result introducing variability and creativity in the text generated by the model.</p>
+<h2 id="Example-of-Token-Selection-Using-Cumulative-Probabilities"><a href="#Example-of-Token-Selection-Using-Cumulative-Probabilities" class="headerlink" title="Example of Token Selection Using Cumulative Probabilities"></a>Example of Token Selection Using Cumulative Probabilities</h2><p>Consider the following table which lists tokens along with their individual and cumulative probabilities:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Probability</th>
+<th>Cumulative Probability</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sits</td>
+<td>0.01</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>runs</td>
+<td>0.05</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td>jumps</td>
+<td>0.2</td>
+<td>0.26</td>
+</tr>
+<tr>
+<td>disappears</td>
+<td>0.02</td>
+<td>0.28</td>
+</tr>
+</tbody></table>
+<p>Imagine a scenario where a random number, say 0.15, is generated to determine the next token. The selection process would proceed as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Probability</th>
+<th>Cumulative Probability</th>
+<th>Random Number</th>
+<th>Selection Outcome</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sits</td>
+<td>0.01</td>
+<td>0.01</td>
+<td>0.15</td>
+<td>Not Selected</td>
+</tr>
+<tr>
+<td>runs</td>
+<td>0.05</td>
+<td>0.06</td>
+<td>0.15</td>
+<td>Not Selected</td>
+</tr>
+<tr>
+<td>jumps</td>
+<td>0.2</td>
+<td>0.26</td>
+<td>0.15</td>
+<td>Selected</td>
+</tr>
+<tr>
+<td>disappears</td>
+<td>0.02</td>
+<td>0.28</td>
+<td>0.15</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>In this example, the token “jumps” is selected because its cumulative probability of 0.26 is the first to exceed the random number of 0.15. This illustrates how the model can select a token based on a probabilistic approach, ensuring that while the most probable token is often chosen, other less likely tokens can also be selected occasionally, thereby adding diversity and unpredictability to the generated text.</p>
+<p>The technique of choosing the next token from a set of possible tokens is known as sampling from a Multinomial Distribution.</p>
+<p>Why is it called multinomial? The term multinomial is used because the selection isn’t binary; instead, there are multiple potential tokens that could be chosen next, each with its own associated probability. This method reflects the reality that multiple outcomes are possible, each with a different likelihood.</p>
+<h2 id="Why-this-approach-is-effective"><a href="#Why-this-approach-is-effective" class="headerlink" title="Why this approach is effective?"></a>Why this approach is effective?</h2><div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+  <img src="/blog_images/cumulative_probs.svg" alt="Cumulative Probability" style="max-width: 100%; height: auto;">
+</div>
+
+<p>This method is effective because a randomly generated number is more likely to fall within a range that corresponds to a higher probability category. As illustrated in the figure above, the category with a probability of 0.5 covers a larger section of the probability range (from 0.5 to 1). Therefore, it’s statistically more likely for the random number to fall within this range, leading to the selection of the corresponding token.</p>
+<h1 id="Ways-to-control-determinism"><a href="#Ways-to-control-determinism" class="headerlink" title="Ways to control determinism"></a>Ways to control determinism</h1><p>In the context of token selection, once we have established probabilities for all potential tokens in our vocabulary, we can apply further filtering techniques such as Top-k and Top-p sampling to refine our selection process.</p>
+<h2 id="Top-k-Sampling"><a href="#Top-k-Sampling" class="headerlink" title="Top-k Sampling"></a>Top-k Sampling</h2><p>Top-k sampling involves selecting the k tokens with the highest probabilities and then randomly sampling from this subset. This method allows us to control the diversity and creativity of the generated text. By reducing the value of k, we narrow the pool of likely tokens, making the output more deterministic and predictable, as lower probability tokens are excluded from the selection process.</p>
+<h2 id="Top-p-Sampling"><a href="#Top-p-Sampling" class="headerlink" title="Top-p Sampling"></a>Top-p Sampling</h2><p>Top-p sampling, on the other hand, is similar to Top-k but focuses on the cumulative probability. Instead of selecting a fixed number of tokens (k), it selects all tokens whose cumulative probabilities exceed a predefined threshold (p). For example, if we set top-p to 0.5:</p>
+<ul>
+<li>We first sort the token probabilities in descending order.</li>
+<li>We then calculate the cumulative probability and continue to add tokens until the cumulative probability exceeds 0.5.</li>
+<li>Finally, we sample a token from this refined subset.</li>
+</ul>
+<p>This method ensures that the selection is not just limited to the most probable tokens but also includes any token that collectively contributes to reaching the threshold probability, thus maintaining a balance between predictability and variability in the generated text.</p>
+<h2 id="Logit-Scaling-Temperature"><a href="#Logit-Scaling-Temperature" class="headerlink" title="Logit Scaling (Temperature):"></a>Logit Scaling (Temperature):</h2><p>Logit scaling, controlled by a temperature parameter, adjusts the distribution of token probabilities. A temperature below 1 sharpens the distribution, amplifying higher probabilities and leading to the selection of more probable tokens. </p>
+<p>Conversely, a temperature above 1 flattens the distribution, boosting lower probabilities and increasing diversity but potentially reducing coherence. This technique allows for a customizable balance between predictability and creativity in text generation.</p>
+<p>Hint: The scaling follows graph of hyperbolic tangent function.</p>
+<p>Here is the implementation of some of the techniques discussed in the blog provided by Andrej Karpathy in the nanoGPT project:<br><a target="_blank" rel="noopener" href="https://github.com/karpathy/nanoGPT/blob/325be85d9be8c81b436728a420e85796c57dba7e/model.py#L306">Generate from nanoGPT</a></p>
+<blockquote>
+<p>Chaturvedi, Pranav. (June 2024). How LLMs Introduce Creativity. <a href="https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html">https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html</a></p>
+</blockquote>
+<p>or</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@article&#123;chaturvedi2024sampling,</span><br><span class="line">  title   = &#123;How LLMs Introduce Creativity&#125;,</span><br><span class="line">  author  = &#123;Chaturvedi, Pranav&#125;,</span><br><span class="line">  journal = &#123;pranavchat.com&#125;,</span><br><span class="line">  year    = &#123;2024&#125;,</span><br><span class="line">  month   = &#123;May&#125;,</span><br><span class="line">  url     = &#123;https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Attributions"><a href="#Attributions" class="headerlink" title="Attributions"></a>Attributions</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/karpathy/nanoGPT/blob/325be85d9be8c81b436728a420e85796c57dba7e/model.py#L306">nanoGPT Implementation</a> by Andrej Karpathy</li>
+</ul>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Determinism-in-LLM-Outputs"><span class="toc-number">1.</span> <span class="toc-text">Determinism in LLM Outputs</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sampling"><span class="toc-number">2.</span> <span class="toc-text">Sampling</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sampling-from-a-Multinomial-Distribution"><span class="toc-number">2.1.</span> <span class="toc-text">Sampling from a Multinomial Distribution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-of-Token-Selection-Using-Cumulative-Probabilities"><span class="toc-number">2.2.</span> <span class="toc-text">Example of Token Selection Using Cumulative Probabilities</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-this-approach-is-effective"><span class="toc-number">2.3.</span> <span class="toc-text">Why this approach is effective?</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Ways-to-control-determinism"><span class="toc-number">3.</span> <span class="toc-text">Ways to control determinism</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Top-k-Sampling"><span class="toc-number">3.1.</span> <span class="toc-text">Top-k Sampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Top-p-Sampling"><span class="toc-number">3.2.</span> <span class="toc-text">Top-p Sampling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Logit-Scaling-Temperature"><span class="toc-number">3.3.</span> <span class="toc-text">Logit Scaling (Temperature):</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Attributions"><span class="toc-number">4.</span> <span class="toc-text">Attributions</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&text=How LLMs Introduce Creativity"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&is_video=false&description=How LLMs Introduce Creativity"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=How LLMs Introduce Creativity&body=Check out this article: https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&title=How LLMs Introduce Creativity"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&name=How LLMs Introduce Creativity&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://pranavchat.com/llms/2024/05/12/sampling-in-llms.html&t=How LLMs Introduce Creativity"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Pranav Chaturvedi
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'pranavchat14/pranavchat.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>

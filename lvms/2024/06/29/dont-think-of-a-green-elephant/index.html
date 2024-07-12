@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Text-to-Image models like Stable Diffusion struggle with negation as part of the prompt. We explore here why of it, draw parallels with human thought process and discuss technique that has been devel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Don&#39;t Think of a Green Elephant">
+<meta property="og:url" content="https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/index.html">
+<meta property="og:site_name" content="Pranav Chaturvedi">
+<meta property="og:description" content="Text-to-Image models like Stable Diffusion struggle with negation as part of the prompt. We explore here why of it, draw parallels with human thought process and discuss technique that has been devel">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://pranavchat.com/blog_images/2024-06-29-dont-think-of-a-green-elephant.png">
+<meta property="og:image" content="https://pranavchat.com/blog_images/2024-06-29-a-human-without-teeth.png">
+<meta property="og:image" content="https://pranavchat.com/blog_images/2024-06-29-a-human-without-hair-walking-on-a-non-snowy-road.png">
+<meta property="og:image" content="https://pranavchat.com/blog_images/2024-06-29-dont-think-of-a-green-elephant-negative-prompt.png">
+<meta property="og:image" content="https://pranavchat.com/blog_images/2024-06-29-a-human-without-teeth-negative-prompt.png">
+<meta property="og:image" content="https://pranavchat.com/blog_images/2024-06-29-a-human-without-hair-walking-on-a-non-snowy-road-negative-prompt.png">
+<meta property="article:published_time" content="2024-06-28T18:49:59.000Z">
+<meta property="article:modified_time" content="2024-07-12T15:26:31.143Z">
+<meta property="article:author" content="Pranav Chaturvedi">
+<meta property="article:tag" content="Vision">
+<meta property="article:tag" content="LVMs">
+<meta property="article:tag" content="Cognition">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pranavchat.com/blog_images/2024-06-29-dont-think-of-a-green-elephant.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Don&#39;t Think of a Green Elephant</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVWRJ2KKZZ"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RVWRJ2KKZZ');
+  </script>
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/projects">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/llms/2024/05/12/sampling-in-llms.html"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&text=Don&#39;t Think of a Green Elephant"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&is_video=false&description=Don&#39;t Think of a Green Elephant"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Don&#39;t Think of a Green Elephant&body=Check out this article: https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&name=Don&#39;t Think of a Green Elephant&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&t=Don&#39;t Think of a Green Elephant"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant-in-the-Room"><span class="toc-number">1.</span> <span class="toc-text">The Elephant in the Room</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant-in-Our-Minds-Human-Thought-Processes"><span class="toc-number">2.</span> <span class="toc-text">The Elephant in Our Minds: Human Thought Processes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-1-Sentence-with-Straight-Forward-Cues"><span class="toc-number">2.1.</span> <span class="toc-text">Scenario 1: Sentence with Straight-Forward Cues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-2-Sentence-with-Not-So-Straight-Forward-Cues"><span class="toc-number">2.2.</span> <span class="toc-text">Scenario 2: Sentence with Not So Straight-Forward Cues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-3-Sentence-with-Negative-Cue"><span class="toc-number">2.3.</span> <span class="toc-text">Scenario 3: Sentence with Negative Cue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-Goes-on-in-a-Human%E2%80%99s-Mind-When-They-See-a-Negative-Cue"><span class="toc-number">2.3.1.</span> <span class="toc-text">What Goes on in a Human’s Mind When They See a Negative Cue?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant%E2%80%99s-Digital-Cousin-How-LVMs-See-the-World"><span class="toc-number">3.</span> <span class="toc-text">The Elephant’s Digital Cousin: How LVMs See the World</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant%E2%80%99s-Eraser-Negative-Prompts-to-the-Rescue"><span class="toc-number">4.</span> <span class="toc-text">The Elephant’s Eraser: Negative Prompts to the Rescue</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Attributions"><span class="toc-number">4.1.</span> <span class="toc-text">Attributions</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Don&#39;t Think of a Green Elephant
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Pranav Chaturvedi</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-06-28T18:49:59.000Z" class="dt-published" itemprop="datePublished">2024-06-29</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Cognition/" rel="tag">Cognition</a>, <a class="p-category" href="/tags/LVMs/" rel="tag">LVMs</a>, <a class="p-category" href="/tags/Vision/" rel="tag">Vision</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>Text-to-Image models like Stable Diffusion struggle with negation as part of the prompt. We explore here why of it, draw parallels with human thought process and discuss technique that has been developed to deal with it.</p>
+</blockquote>
+<!-- toc -->
+
+<ul>
+<li><a href="#The-Elephant-in-the-Room">The Elephant in the Room</a></li>
+<li><a href="#The-Elephant-in-Our-Minds-Human-Thought-Processes">The Elephant in Our Minds: Human Thought Processes</a><ul>
+<li><a href="#Scenario-1-Sentence-with-Straight-Forward-Cues">Scenario 1: Sentence with Straight-Forward Cues</a></li>
+<li><a href="#Scenario-2-Sentence-with-Not-So-Straight-Forward-Cues">Scenario 2: Sentence with Not So Straight-Forward Cues</a></li>
+<li><a href="#Scenario-3-Sentence-with-Negative-Cue">Scenario 3: Sentence with Negative Cue</a><ul>
+<li><a href="#What-Goes-on-in-a-Human's-Mind-When-They-See-a-Negative-Cue?">What Goes on in a Human’s Mind When They See a Negative Cue?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#The-Elephant's-Digital-Cousin-How-LVMs-See-the-World">The Elephant’s Digital Cousin: How LVMs See the World</a></li>
+<li><a href="#The-Elephant's-Eraser-Negative-Prompts-to-the-Rescue">The Elephant’s Eraser: Negative Prompts to the Rescue</a><ul>
+<li><a href="#Attributions">Attributions</a></li>
+</ul>
+</li>
+</ul>
+<!-- tocstop -->
+
+<h1 id="The-Elephant-in-the-Room"><a href="#The-Elephant-in-the-Room" class="headerlink" title="The Elephant in the Room"></a>The Elephant in the Room</h1><p>Picture this: You ask an AI to draw “anything but a green elephant,” because who wants a green elephant when they look perfectly gorgeous as they are. And what do you get? Lo and behold, a green elephant!</p>
+<p>Let’s dive into the world of Language Vision Models (LVMs) and their struggle with negative instructions.</p>
+<p>To illustrate this phenomenon, let us first see some images generated by the Stable Diffusion 3 model:</p>
+<div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+  <div style="margin: 20px 0; text-align: center;">
+    <img src="/blog_images/2024-06-29-dont-think-of-a-green-elephant.png" alt="Don't think of a green elephant" style="width: 100%; max-width: 400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <p><em>Prompt: "Don't think of a green elephant"</em></p>
+  </div>
+  <div style="margin: 20px 0; text-align: center;">
+    <img src="/blog_images/2024-06-29-a-human-without-teeth.png" alt="A human without teeth" style="width: 100%; max-width: 400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <p><em>Prompt: "A human without teeth"</em></p>
+  </div>
+  <div style="margin: 20px 0; text-align: center;">
+    <img src="/blog_images/2024-06-29-a-human-without-hair-walking-on-a-non-snowy-road.png" alt="A human without hair walking on a non-snowy road" style="width: 100%; max-width: 400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <p><em>Prompt: "A human without hair walking on a non-snowy road"</em></p>
+  </div>
+</div>
+
+<p>Okay, third one did get it half-right. But you see the point though.<br><br></p>
+<h1 id="The-Elephant-in-Our-Minds-Human-Thought-Processes"><a href="#The-Elephant-in-Our-Minds-Human-Thought-Processes" class="headerlink" title="The Elephant in Our Minds: Human Thought Processes"></a>The Elephant in Our Minds: Human Thought Processes</h1><p>If we think about it, it’s very similar to how humans behave. When asked not to think of a green elephant, we exactly do that too.</p>
+<p>If I have to break the process down into individual steps, of how I personally do it, it would be like this:</p>
+<ul>
+<li>First, the mind scans for the major words in the sentence.</li>
+<li>Then, mind tries to fetch from one-to-many mapping, visuals, that these words might represent. Specifically, nouns are visualized first, then adjectives, and so on.</li>
+<li>And then, those visuals are combined with different degrees of variations or say weights, to form a coherent image.</li>
+</ul>
+<p>So when someone says “don’t think of a green elephant,” my mind tries to pick up on nouns and adjectives, fetches the visuals that are mapped to the words from past experiences, and then combines them to create a coherent scenery.<br><br></p>
+<h2 id="Scenario-1-Sentence-with-Straight-Forward-Cues"><a href="#Scenario-1-Sentence-with-Straight-Forward-Cues" class="headerlink" title="Scenario 1: Sentence with Straight-Forward Cues"></a>Scenario 1: Sentence with Straight-Forward Cues</h2><p>Take this sentence: </p>
+<blockquote>
+<p>A bright <span style="color:red">red balloon</span> floating gently in a clear <span style="color:skyblue">blue</span> sky.</p>
+</blockquote>
+<p>I wouldn’t presume to know how every mind in the universe works, but if I have to describe it, it would be something like this:</p>
+<ul>
+<li>The mind immediately thinks of “red balloon” almost as if they are not two separate words but one.</li>
+<li>Then the next word mind goes to, is “sky.”</li>
+</ul>
+<p>After the word balloon, mind sort of waits for the next cue. And it is not until the word sky, that it changes the already created scenery and adds to it.<br><br></p>
+<h2 id="Scenario-2-Sentence-with-Not-So-Straight-Forward-Cues"><a href="#Scenario-2-Sentence-with-Not-So-Straight-Forward-Cues" class="headerlink" title="Scenario 2: Sentence with Not So Straight-Forward Cues"></a>Scenario 2: Sentence with Not So Straight-Forward Cues</h2><p>In contrast, let’s think of the sentence:</p>
+<blockquote>
+<p>Imagine the sound of a silent echo.</p>
+</blockquote>
+<p>At most, what I can think of is an echo-chamber. Almost as if there is a gap in the mental map for words like sound, silent, and echo. A musician or an audio engineer might have a different opinion though. Discussion on this topic is a matter for another post.<br><br></p>
+<h2 id="Scenario-3-Sentence-with-Negative-Cue"><a href="#Scenario-3-Sentence-with-Negative-Cue" class="headerlink" title="Scenario 3: Sentence with Negative Cue"></a>Scenario 3: Sentence with Negative Cue</h2><p>What I feel is more difficult to visualize, even for us as humans who are at the top of the cognitive pyramid, is the sentence that has a negative cue.</p>
+<blockquote>
+<p>Don’t think of a green elephant.</p>
+</blockquote>
+<p>By the time I hit the word “think”, it’s already <em>BZZZZT</em> in my mind. The brake was applied, but the train of thought fails to stop. It has already reached the green elephant station. A glorious green elephant stands in the middle of my mind.</p>
+<p>What should I do now? Should I go back and delete it? Of course, I can delete the elephant from the mental scene. But LVMs do not have that luxury.</p>
+<p>And maybe that gives a clue why LVMs struggle with negative instructions.</p>
+<h3 id="What-Goes-on-in-a-Human’s-Mind-When-They-See-a-Negative-Cue"><a href="#What-Goes-on-in-a-Human’s-Mind-When-They-See-a-Negative-Cue" class="headerlink" title="What Goes on in a Human’s Mind When They See a Negative Cue?"></a>What Goes on in a Human’s Mind When They See a Negative Cue?</h3><p>What happens in the case of a negative cue is that it is interpreted and appended to the scene after the scene has already been visualized. For example, if I am asked not to think of a red apple, I would visualize a red apple first and then append the negative cue to erase the apple from the scene.</p>
+<p>The combination of word negations and their visual counterparts do not exist even for us humans, and there is always a bit of post-processing that happens to erase the visuals of the object from the scene.<br><br></p>
+<h1 id="The-Elephant’s-Digital-Cousin-How-LVMs-See-the-World"><a href="#The-Elephant’s-Digital-Cousin-How-LVMs-See-the-World" class="headerlink" title="The Elephant’s Digital Cousin: How LVMs See the World"></a>The Elephant’s Digital Cousin: How LVMs See the World</h1><p>While training, LVMs are shown a vast amount of data. And through the course of training, they associate words with their visual counterparts on the basis of their co-occurrence. It creates sort of a loose mapping between words and features of objects they have seen.</p>
+<p>What LVMs lack is the mapping of negation of each of those words and their corresponding visual representations. This limitation comes from the fact that during training, LVMs are primarily exposed to positive associations between words and images. They learn to generate images based on what should be present, rather than what should be absent.</p>
+<p>The sequential nature of text processing in these models means that by the time a negative instruction is processed, the model may have already activated the visual features associated with the negated concept. Unlike us humans, who can consciously suppress and modify mental images, LVMs lack this flexible, top-down control over their generative process.</p>
+<p>For LMs to work with negations, they need to be trained with a lot of negation data. But that’s quite a bit of a challenge. There are so many questions to be answered for that.</p>
+<ul>
+<li>How would the negation data look like?</li>
+<li>Do we go about labeling all the images not containing balloons as not-balloons?</li>
+<li>In the case of the instruction “Don’t create a balloon,” what should the model create? Should it create an empty space? Is that even a valid instruction?</li>
+<li>What is the good way to include negation data in the training?</li>
+</ul>
+<p>There is no good way.<br><br></p>
+<h1 id="The-Elephant’s-Eraser-Negative-Prompts-to-the-Rescue"><a href="#The-Elephant’s-Eraser-Negative-Prompts-to-the-Rescue" class="headerlink" title="The Elephant’s Eraser: Negative Prompts to the Rescue"></a>The Elephant’s Eraser: Negative Prompts to the Rescue</h1><p>And so comes the idea of negative prompts. It is an auxiliary optional input prompt that goes with the primary prompt where we can mention something that we don’t want the model to generate.</p>
+<p>It is a nice way of moving the model away from a feature space that belongs to the things we don’t want them to generate.</p>
+<p>Practically, what it does is it subtracts the embeddings of the negative prompt text from the embeddings of the positive prompt text.</p>
+<p>Here’s a simplified example of how it works internally: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">positive_prompt_embedding = get_embedding(<span class="string">&quot;A human&quot;</span>)</span><br><span class="line">negative_prompt_embedding = get_embedding(<span class="string">&quot;teeth&quot;</span>)</span><br><span class="line"></span><br><span class="line">final_embedding = positive_prompt_embedding - negative_prompt_embedding</span><br><span class="line"></span><br><span class="line">generated_image = generate_image_from_embedding(final_embedding)</span><br></pre></td></tr></table></figure>
+
+<br>
+And what happens when these negative prompts are applied to the model? 
+Here are some of the results generated by the Stable Diffusion 3 model 
+with the negative prompts:
+<div style="display: flex; flex-direction: column; align-items: center; 
+width: 100%;">
+  <div style="margin: 20px 0; text-align: center;">
+    <img src="/blog_images/2024-06-29-dont-think-of-a-green-elephant-negative-prompt.png" 
+    alt="Don't think of a green elephant" style="width: 100%; max-width: 
+    400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <p><em>Prompt: "Think of an elephant"</em></p>
+    <p><em>Negative Prompt: "green"</em></p>
+  </div>
+  <div style="margin: 20px 0; text-align: center;">
+    <img src="/blog_images/2024-06-29-a-human-without-teeth-negative-prompt.png" alt="A human 
+    without teeth" style="width: 100%; max-width: 400px; border-radius: 
+    10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <p><em>Prompt: "A human"</em></p>
+    <p><em>Negative Prompt: "teeth"</em></p>
+  </div>
+  <div style="margin: 20px 0; text-align: center;">
+    <img src="/blog_images/2024-06-29-a-human-without-hair-walking-on-a-non-snowy-road-negative-prompt.png" alt="A human walking on a road" style="width: 100%; max-width: 400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <p><em>Prompt: "A human walking on a road"</em></p>
+    <p><em>Negative Prompt: "hair, snow"</em></p>
+  </div>
+</div>
+
+<p>In above cases, the prompt in itself would have been enough to generate these images, but the negative prompts help the model move further away from the features that we don’t want the model to generate.</p>
+<br>
+
+
+<p>If you found this article useful, please cite it as:</p>
+<blockquote>
+<p>Chaturvedi, Pranav. (June 2024). Don’t Think of a Green Elephant. <a href="https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/">https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/</a></p>
+</blockquote>
+<p>or</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@article&#123;chaturvedi2024elephant,</span><br><span class="line">  title   = &#123;Don&#x27;t Think of a Green Elephant&#125;,</span><br><span class="line">  author  = &#123;Chaturvedi, Pranav&#125;,</span><br><span class="line">  journal = &#123;pranavchat.com&#125;,</span><br><span class="line">  year    = &#123;2024&#125;,</span><br><span class="line">  month   = &#123;June&#125;,</span><br><span class="line">  url     = &#123;https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br>
+
+<h2 id="Attributions"><a href="#Attributions" class="headerlink" title="Attributions"></a>Attributions</h2><p>Stable Diffusion 3. Response to “Don’t think of a green elephant”. AI-generated image. STABILITY AI LTD, 2024. <a target="_blank" rel="noopener" href="https://stability.ai/stable-diffusion">Stable Diffusion</a></p>
+<p>Stable Diffusion 3. Response to “A human without teeth”. AI-generated image. STABILITY AI LTD, 2024. <a target="_blank" rel="noopener" href="https://stability.ai/stable-diffusion">Stable Diffusion</a></p>
+<p>Stable Diffusion 3. Response to “A human without hair walking on a non-snowy road”. AI-generated image. STABILITY AI LTD, 2024. <a target="_blank" rel="noopener" href="https://stability.ai/stable-diffusion">Stable Diffusion</a></p>
+<p>Stable Diffusion 3. Response to “Think of an elephant” with negative prompt “green”. AI-generated image. STABILITY AI LTD, 2024. <a target="_blank" rel="noopener" href="https://stability.ai/stable-diffusion">Stable Diffusion</a></p>
+<p>Stable Diffusion 3. Response to “A human” with negative prompt “teeth”. AI-generated image. STABILITY AI LTD, 2024. <a target="_blank" rel="noopener" href="https://stability.ai/stable-diffusion">Stable Diffusion</a></p>
+<p>Stable Diffusion 3. Response to “A human walking on a road” with negative prompt “hair, snow”. AI-generated image. STABILITY AI LTD, 2024. <a target="_blank" rel="noopener" href="https://stability.ai/stable-diffusion">Stable Diffusion</a></p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant-in-the-Room"><span class="toc-number">1.</span> <span class="toc-text">The Elephant in the Room</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant-in-Our-Minds-Human-Thought-Processes"><span class="toc-number">2.</span> <span class="toc-text">The Elephant in Our Minds: Human Thought Processes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-1-Sentence-with-Straight-Forward-Cues"><span class="toc-number">2.1.</span> <span class="toc-text">Scenario 1: Sentence with Straight-Forward Cues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-2-Sentence-with-Not-So-Straight-Forward-Cues"><span class="toc-number">2.2.</span> <span class="toc-text">Scenario 2: Sentence with Not So Straight-Forward Cues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scenario-3-Sentence-with-Negative-Cue"><span class="toc-number">2.3.</span> <span class="toc-text">Scenario 3: Sentence with Negative Cue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#What-Goes-on-in-a-Human%E2%80%99s-Mind-When-They-See-a-Negative-Cue"><span class="toc-number">2.3.1.</span> <span class="toc-text">What Goes on in a Human’s Mind When They See a Negative Cue?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant%E2%80%99s-Digital-Cousin-How-LVMs-See-the-World"><span class="toc-number">3.</span> <span class="toc-text">The Elephant’s Digital Cousin: How LVMs See the World</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Elephant%E2%80%99s-Eraser-Negative-Prompts-to-the-Rescue"><span class="toc-number">4.</span> <span class="toc-text">The Elephant’s Eraser: Negative Prompts to the Rescue</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Attributions"><span class="toc-number">4.1.</span> <span class="toc-text">Attributions</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&text=Don&#39;t Think of a Green Elephant"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&is_video=false&description=Don&#39;t Think of a Green Elephant"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Don&#39;t Think of a Green Elephant&body=Check out this article: https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&title=Don&#39;t Think of a Green Elephant"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&name=Don&#39;t Think of a Green Elephant&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://pranavchat.com/lvms/2024/06/29/dont-think-of-a-green-elephant/&t=Don&#39;t Think of a Green Elephant"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    Pranav Chaturvedi
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/projects">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'pranavchat14/pranavchat.github.io';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'github-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+</body>
+</html>
