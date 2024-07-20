@@ -1,7 +1,8 @@
 ---
+layout: post
 title: How LLMs Introduce Creativity
 date: 2024-05-12 02:58:35
-tags: [LLMs, Sampling]
+tags: [GenAI, LLMs, Sampling]
 permalink: llms/2024/05/12/sampling-in-llms.html
 cover: /blog_images/2024-05-12-sampling-in-llms.jpg
 ---
